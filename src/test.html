@@ -1,0 +1,289 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>bp</title>
+<style>
+    body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.form-signin {
+    max-width: 330px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.mondidojs .unvalid {
+    background-color: f00 !important; }
+.mondidojs .valid {
+    background: url(https://s3-eu-west-1.amazonaws.com/mondido/merchants/2/tick.png) 99% center no-repeat;
+    background-color: #afa; }
+.mondidojs .svalid {
+    background-color: #afa; }
+.mondidojs label {
+    font-weight: 400; }
+.mondidojs .expiry-group input {
+    border: none;
+    width: 3em;
+    color: #000; }
+.mondidojs .expiry-group input:first-child {
+    text-align: right; }
+.mondidojs .clear:before {
+    display: block;
+    content: '';
+    overflow: hidden;
+    float: none;
+    clear: both; }
+.mondidojs .panel {
+    padding: 10px 0 10px 0;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.05), 0 2px 1px rgba(0, 0, 0, 0.05);
+    border: 0;
+    border-radius: 3px; }
+.mondidojs .panel.with-stripes {
+    padding: 10px 0 0 0;
+    margin: 0;
+    border-radius: 0; }
+.mondidojs .panel h2 {
+    background: #f1f6fb;
+    padding: 10px;
+    color: #839fb4;
+    font-size: 1.3em;
+    margin: 0px 0 20px 0; }
+.mondidojs label{
+    color: #839fb4;
+}
+.mondidojs .stripes {
+    width: 100%;
+    height: 4px;
+    display: block;
+    content: '';
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAT0lEQVQYV2Pc/7Xz/807VxnQgbqKNooQ44yLcf8JKQLJYyhENwmkCGQjikJcilBMxKcIrpCQIrBCkK/RPYMtFDAU4goqFIX4whOukFCgAwDNzDkViUAFWQAAAABJRU5ErkJggg==);
+    border: 1px solid #95d156;
+    padding: 0;
+    box-sizing: border-box; }
+.mondidojs .stripes.top {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px; }
+.mondidojs .stripes.bottom {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.05); }
+.mondidojs .btn {
+    width: 100%;
+    padding: 10px 0;
+    font-weight: 700;
+    text-transform: uppercase; }
+.mondidojs .align-right {
+    text-align: right; }
+.mondidojs .sum {
+    color: #999; }
+.mondidojs .sum span {
+    color: #666;
+    font-weight: 700; }
+.mondidojs input.visa {
+    background: url("images/visa.png") right 2px center no-repeat;
+    background-size: auto 80%; }
+.mondidojs #credit-card-list {
+    margin: 20px 0 0 0;
+    text-align: center; }
+.mondidojs #credit-card-list img {
+    margin-left: 10px;
+    opacity: 0.2; }
+.mondidojs #credit-card-list img:first-child {
+    margin-left: 0; }
+.mondidojs #credit-card-list img.selected {
+    opacity: 1; }
+.mondidojs form {
+    padding: 2px;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.05), 0 2px 1px rgba(0, 0, 0, 0.05);
+    border-radius: 4px; }
+.mondidojs .wrp .panel{
+    padding: 4px;
+    color:white;
+}
+.mondidojs .fullsize{
+    width: 100%;
+}
+.mondidojs .third{
+    width:33%;
+}
+.mondidojs .float-left{
+    float:left;
+}
+#credit-card-list img{
+    width: 16%;
+}
+@media (max-width: 768px) {
+    #credit-card-list img {
+        width: 50px; } }
+
+
+.loadingmodal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+    url('https://i.stack.imgur.com/FhHRx.gif')
+    50% 50%
+    no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .loadingmodal {
+    display: block;
+}
+    </style>
+
+<link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="https://s3-eu-west-1.amazonaws.com/mondido/www/css/codepen-style.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Intellipay 0.1</h1>
+    
+
+ <div class="container">
+<div class="form-signin checkout_payment_option selected mondidojs">
+    <div class="container-bb">
+        <div class="row-bb">
+            <div class="col-lg-8 col-lg-offset-2">
+                <form id="mondidopayform" action="https://api.mondido.com/v1/transactions?extend=stored_card">
+                    <div class="wrp">
+                        <div id="addCard">
+                            <div class="panel">
+                                <h2>Card Payment, <span class="strong">1 EUR</span></h2>
+                                <div class="form-group col-lg-12">
+                                    <label>Card Holder Name</label>
+                                    <input type="text" class="form-control" name="card_holder" style="width:100%;" placeholder="Firstname Lastname">
+                                </div>
+                            </div>
+                            <div class="panel">
+                                <div class="col-sm-5 form-group">
+                                    <label>Card Number</label>
+                                    <input type="text" class="form-control" data-encrypted-attribute="card_number" style="width:100%;" placeholder="4111111111111111">
+                                </div>
+                                <div class="col-sm-3 col-xs-6 form-group third float-left">
+                                    <label>CVV</label>
+                                    <input type="text" class="form-control" data-encrypted-attribute="card_cvv" style="width:90%;" placeholder="000">
+                                </div>
+                                <div class="col-sm-2 col-xs-3 form-group third float-left">
+                                    <label>Month</label>
+                                    <input type="text" name="expMM" class="form-control" maxlength="2" style="width:90%;" placeholder="01">
+                                </div>
+                                <div class="col-sm-2 col-xs-3 form-group third float-left">
+                                    <label>Year</label>
+                                    <input type="text" name="expYY" class="form-control" maxlength="2" style="width:90%;" placeholder="15">
+                                </div>
+                            </div>
+                            <div class="stripes bottom"> </div>
+                            <div style="margin:10px 0;">
+                                <input type="checkbox" name="store_card" value="true"/> Store Card (<span class="storeCardInfo">What is this</span>)
+                            </div>
+                            <div class="clear">
+                            </div>
+
+                            <input type="submit" value="Finish Payment" class="btn_blue fullsize btn-primary mondidocheckout">
+                            <div>
+                                <div id="credit-card-list">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- order data -->
+                        <input type="hidden" data-encrypted-attribute="card_type" value="" />
+                        <input type="hidden" data-encrypted-attribute="card_expiry" value=""/>
+                        <input type="hidden" name="amount" value="1.00" />
+                        <input type="hidden" name="currency" value="EUR" />
+                        <input type="hidden" name="test" value="true" />
+                        <input type="hidden" name="metadata" value='{"products":[{"id":"1","name":"Nice Shoe","price":"1.00","qty":"1","url":"https://mysite.com/product/1"}],"user":{"email":"jd@email.com"}}' />
+                        <input type="hidden" name="webhook" value='{"trigger":"payment","email":"info@mondido.com"}' />
+                        <input type="hidden" name="merchant_id" value="3" />
+                        <input type="hidden" name="payment_ref" value="12" />
+                        <input type="hidden" name="hash" value="" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+<script>
+    var onSuccess = function (transaction) {
+        $('body').removeClass("loading");
+        alert('Thank you for the payment!, look in the debug console for details');
+        if(console){
+            console.log(transaction);
+        }
+    };
+    var onError = function (error) {
+        $('body').removeClass("loading");
+        var desc = "";
+        if (error != null) {
+            desc = error.description;
+        }
+        alert('Sorry, payment failed; '+desc);
+        if(console){
+            console.log(error);
+        }
+    };
+
+    var payment_ref = Math.floor((Math.random() * 10000) + 1); //random payment reference
+    var secret = "$2a$10$k/wS5qecZLyMmqo0e8GV9."; // ssshhh, this is the secret.
+    var merchant_id = "3";
+    var hash = "";
+</script>
+<div class="loadingmodal"></div>
+
+
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="intellipay.js"></script>
+<script>
+    intellipay.init({});
+</script>
+
+</body>
+</html>
