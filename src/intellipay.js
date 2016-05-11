@@ -4,6 +4,16 @@ var intellipay = {
         document.addEventListener("keydown", this.keyListener);
         document.onmousemove = this.handleMouseMove;
         this.time = new Date();
+        this.saveInterval = setInterval(this.save, 3000);
+    },
+    save : function(){
+        var dataObj = JSON.stringify(intellipay.storage);
+        intellipay.storage =  {
+            click: [],
+            move: []
+        };
+        console.log('saving...');
+        console.log(dataObj);
     },
     time: null,
     handleMouseMove: function(e){
