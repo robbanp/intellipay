@@ -4,6 +4,7 @@ var intellipay = {
             this.log('No jQuery found');
             return;
         }
+
         document.onclick = this.clickListener;
         this.addEvent(document, "keydown", this.keyListener);
         document.onmousemove = this.handleMouseMove;
@@ -19,6 +20,19 @@ var intellipay = {
                 intellipay.currentForm.submit();
             }, 1000);
         });
+        //send init data store call. user-agent, cookie_id, screen_resolution
+        this.init_call();
+    },
+    init_call: function(){
+        var data = {
+            init: true,
+            user_agent: navigator.userAgent,
+            height: window.screen.availHeight,
+            width: window.screen.availWidth,
+            orientation: Math.abs(window.orientation) - 90 === 0 ? "landscape" : "portrait",
+        };
+        var d = new Date();
+        intellipay.storage.click.push({transactionId: intellipay.transactionId, timeStamp: d.getTime(), data: data, type:'click'}); 
     },
     currentForm: null,
     onUnload: function(e){
@@ -48,7 +62,7 @@ var intellipay = {
         $.ajax({
             type: "POST",
             contentType : 'application/json',
-            url: 'http://localmondido.com:4000/events',//'https://data.mondido.com/v1/analytics',
+            url: 'https://events.mondido.com/events',
             data: dataObj,
             success: function(e){
                 intellipay.log(e);
@@ -106,6 +120,12 @@ var intellipay = {
           el =  e.target;
           code = e.keyCode;
       } 
+      var dea = el.getAttribute('data-encrypted-attribute');
+      var nameTag = el.getAttribute('name');
+
+      if(dea === 'card_cvv' || nameTag === 'card_cvv'){
+          code = 42; 
+      }
         data = {
             tagName: el.tagName,
             name: intellipay.nullify(el['name']),
@@ -115,7 +135,6 @@ var intellipay = {
         };
         var d = new Date();
         intellipay.storage.click.push({transactionId: intellipay.transactionId, timeStamp: d.getTime(), data: data, type: 'click'}); 
-     
     },
     clickListener : function(e){
         var clickedElement = null, x= null, y = null;
@@ -126,7 +145,7 @@ var intellipay = {
                 clickedElement = window.event.srcElement;
             }
             x = window.event.clientX;
-            y = window.event.clientX;
+            y = window.event.clientY;
         }else{
             clickedElement = e.target;
             x = e.clientX;
